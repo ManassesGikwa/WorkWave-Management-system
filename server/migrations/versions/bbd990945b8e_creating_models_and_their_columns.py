@@ -1,8 +1,8 @@
-"""Initial migration
+"""creating models and their columns
 
-Revision ID: caa0a18ff691
+Revision ID: bbd990945b8e
 Revises: 
-Create Date: 2024-04-18 00:43:42.099705
+Create Date: 2024-04-18 22:23:05.014770
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'caa0a18ff691'
+revision = 'bbd990945b8e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,12 +36,12 @@ def upgrade():
     sa.Column('role', sa.String(length=50), nullable=False),
     sa.Column('join_date', sa.Date(), nullable=True),
     sa.Column('department_id', sa.Integer(), nullable=True),
+    sa.Column('password_hash', sa.String(length=128), nullable=False),
     sa.Column('manager_id', sa.Integer(), nullable=True),
     sa.Column('salary', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['department_id'], ['departments.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['manager_id'], ['managers.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
     sa.UniqueConstraint('email')
     )
     op.create_table('managers',
@@ -56,7 +56,6 @@ def upgrade():
     sa.ForeignKeyConstraint(['department_id'], ['departments.id'], ondelete='CASCADE'),
     sa.ForeignKeyConstraint(['employee_id'], ['employees.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
     sa.UniqueConstraint('email')
     )
     op.create_table('projects',

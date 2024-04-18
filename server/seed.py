@@ -1,5 +1,6 @@
 import sys
 import os
+
 # Get the parent directory of the 'server' module
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the parent directory to sys.path
@@ -66,6 +67,7 @@ def create_employees(num_employees, departments):
                 department=random.choice(departments),  # Randomly assign department
                 salary=random.randint(50000, 100000)  # Random salary amount
             )
+        employee.set_password("password123")  
         employees.append(employee)
     return employees
 
@@ -95,16 +97,20 @@ def create_managers(departments, employees):
     managers = []
     for department in departments:
         manager_employee = random.choice(employees)  # Choose a random employee as manager
+        manager_salary = manager_employee.salary if manager_employee.salary else random.randint(80000, 150000)
         manager = Manager(
-            first_name=fake.first_name(),  # Generate a random first name
-            last_name=fake.last_name(),  # Generate a random last name
-            email=fake.email(),  # Generate a random email
-            phone_number=fake.phone_number(),  # Generate a random phone number
-            join_date=fake.date_between(start_date='-5y', end_date='today'),  # Generate a random join date within the last 5 years
+            first_name=manager_employee.first_name,  # Use the employee's first name as the manager's first name
+            last_name=manager_employee.last_name,  # Use the employee's last name as the manager's last name
+            email=manager_employee.email,  # Use the employee's email as the manager's email
+            phone_number=manager_employee.phone_number,  # Use the employee's phone number as the manager's phone number
+            join_date=manager_employee.join_date,  # Use the employee's join date as the manager's join date
             department_id=department.id,  # Pass the department id
-            employee_id=manager_employee.id  # Pass the employee id
+            salary=manager_salary  # Assign the manager's salary
+
         )
         managers.append(manager)
+        manager_employee.salary = manager_salary
+        
     return managers
 
 
