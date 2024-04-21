@@ -4,7 +4,7 @@ from sqlalchemy import MetaData
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from . import db
-from werkzeug.security import generate_password_hash, check_password_hash  # Import password hashing functions
+from werkzeug.security import generate_password_hash, check_password_hash  
 
 
 # Define metadata
