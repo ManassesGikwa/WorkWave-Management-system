@@ -1,0 +1,16 @@
+/* Header.css */
+
+header {
+    background-color: #1976d2; /* Background color */
+    color: #fff; /* Text color */
+    padding: 20px; /* Padding */
+    text-align: center; /* Center align text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Professional font */
+  }
+  
+  h1 {
+    font-size: 2rem; /* Larger font size */
+    font-weight: bold; /* Bold font weight */
+    margin: 0; /* Remove default margin */
+  }
+  

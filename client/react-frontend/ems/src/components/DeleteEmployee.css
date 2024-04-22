@@ -1,0 +1,14 @@
+.delete-emp-btn {
+    padding: 8px 30px;
+    background-color: #f10707e4;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-emp-btn:hover {
+    background-color: #d70303e4;
+  }
+  

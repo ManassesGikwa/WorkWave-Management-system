@@ -1,0 +1,54 @@
+/* department.css */
+
+/* Department form styles */
+.department-form {
+    margin-bottom: 20px;
+  }
+  
+  .department-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .department-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Button styles */
+  .department-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .department-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Table styles */
+  .department-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .department-table th,
+  .department-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .department-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .department-table td {
+    text-align: center;
+  }
+  

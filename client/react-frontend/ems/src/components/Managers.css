@@ -1,0 +1,54 @@
+/* manager.css */
+
+/* Manager form styles */
+.manager-form {
+    margin-bottom: 20px;
+  }
+  
+  .manager-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .manager-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Button styles */
+  .manager-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .manager-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Table styles */
+  .manager-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .manager-table th,
+  .manager-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .manager-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  .manager-table td {
+    text-align: center;
+  }
+  
