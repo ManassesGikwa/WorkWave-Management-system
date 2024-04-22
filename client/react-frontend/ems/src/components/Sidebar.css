@@ -51,24 +51,35 @@
     list-style: none;
     padding: 0;
     margin-top: 20px;
-    display: none;
-    flex-direction: column;
-  }
-  
-  .menu-items.open {
-    display: flex;
-  }
-  
-  .menu-items li {
+    display: flex; /* Always display menu items vertically */
+    flex-direction: column; /* Arrange links top to bottom */
+}
+
+.menu-items li {
     padding: 10px;
     color: #000;
     cursor: pointer;
-    text-align: center;
     transition: background-color 0.3s ease;
-  }
-  
-  .menu-items li:hover {
+}
+
+.menu-items li:hover {
     background-color: #ccc;
     color: #333;
-  }
-  
+}
+.menu-items li a {
+  text-decoration: none; /* Remove underline */
+  font-family: Arial, sans-serif; /* Example font family */
+  color: #333; /* Example color */
+}
+
+
+.submenu {  /* Styling for submenus */
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Remove margin for cleaner nesting */
+    display: none; /* Hide submenus initially */
+}
+
+.menu-items li.open > .submenu {  /* Show submenu on parent link click */
+    display: block;  /* Make submenu visible */
+}

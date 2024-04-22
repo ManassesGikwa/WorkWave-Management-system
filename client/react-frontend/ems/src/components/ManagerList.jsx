@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import 'Managers.css'
+// import 'Managers.css'
 
 const ManagerList = () => {
   const [managers, setManagers] = useState([]);

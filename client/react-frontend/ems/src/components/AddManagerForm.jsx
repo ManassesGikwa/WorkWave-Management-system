@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import 'Managers.css'
+// import 'Managers.css'
 
 const AddManagerForm = () => {
   const [formData, setFormData] = useState({

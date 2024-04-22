@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 const DeleteDepartment = ({ id }) => {
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this department?')) {
-      fetch(`/api/departments/${id}`, {
+      fetch(`http://127.0.0.1:5555/api/departments/${id}`, {
         method: 'DELETE',
       })
         .then(response => response.json())
         .then(data => {
           console.log('Department deleted successfully:', data);
-          // Optionally, redirect to the department list or show a success message
         })
         .catch(error => console.error('Error deleting department:', error));
     }

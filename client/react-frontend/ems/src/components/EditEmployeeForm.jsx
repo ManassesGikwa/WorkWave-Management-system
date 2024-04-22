@@ -8,7 +8,7 @@ const EditEmployeeForm = ({ employeeId }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/employees/${employeeId}`)
+    fetch(`http://127.0.0.1:5555/api/employees/${employeeId}`)
       .then(response => response.json())
       .then(data => {
         setFormData(data);

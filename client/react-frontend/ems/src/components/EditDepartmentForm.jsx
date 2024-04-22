@@ -1,5 +1,5 @@
 import  { useState, useEffect } from 'react';
-import './Departments.css'; 
+// import './Departments.css'; 
 import PropTypes from 'prop-types'; 
 
 
@@ -11,7 +11,7 @@ const EditDepartmentForm = ({ id }) => {
 
   useEffect(() => {
     // Fetch department data from the API based on the provided id
-    fetch(`/api/departments/${id}`)
+    fetch(`http://127.0.0.1:5555/api/departments/${id}`)
       .then(response => response.json())
       .then(data => setFormData(data))
       .catch(error => console.error('Error fetching department:', error));
@@ -23,7 +23,7 @@ const EditDepartmentForm = ({ id }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch(`/api/departments/${id}`, {
+    fetch(`http://127.0.0.1:5555/api/departments/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +33,6 @@ const EditDepartmentForm = ({ id }) => {
       .then(response => response.json())
       .then(data => {
         console.log('Department updated successfully:', data);
-        // Optionally, redirect to the department list or show a success message
       })
       .catch(error => console.error('Error updating department:', error));
   };

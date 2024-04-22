@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Departments.css'; 
+// import './Departments.css'; 
 
 const AddDepartmentForm = () => {
   const [formData, setFormData] = useState({ name: '', createDate: '' });
@@ -11,7 +11,7 @@ const AddDepartmentForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     // Send POST request to add new department
-    fetch('/api/departments', {
+    fetch('http://127.0.0.1:5555/api/departments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +21,6 @@ const AddDepartmentForm = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Department added successfully:', data);
-        // Optionally, redirect to the department list or show a success message
       })
       .catch(error => console.error('Error adding department:', error));
   };

@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import 'Projects.css'
+// import 'Projects.css'
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/projects/${id}`)
+    fetch(`http://127.0.0.1:5555/api/projects/${id}`)
       .then(response => response.json())
       .then(data => setProject(data))
       .catch(error => console.error('Error fetching project details:', error));

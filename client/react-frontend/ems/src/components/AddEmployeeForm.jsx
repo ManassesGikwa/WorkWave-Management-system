@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -10,23 +10,11 @@ const AddEmployeeForm = () => {
     phone_number: '',
     email: '',
     city: '',
-    DOB: new Date(), // Set default date to today
+    DOB: new Date(),
     employee_availability_status: '',
-    join_date: new Date(), // Set default date to today
-    department_id: '', // Initialize as empty string
+    join_date: new Date(),
     salary: '',
-    // Add more fields as needed
   });
-
-  const [departmentId, setDepartmentId] = useState('');
-
-  // Simulate fetching the number of employees in the department
-  useEffect(() => {
-    // Simulate API call to fetch number of employees in department
-    // For demonstration, we're just setting a random number
-    const randomEmployeeCount = Math.floor(Math.random() * 100) + 1; // Generate random number between 1 and 100
-    setDepartmentId(randomEmployeeCount.toString());
-  }, []); // Run only once on component mount
 
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,7 +26,7 @@ const AddEmployeeForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    fetch('/api/employees', {
+    fetch('http://127.0.0.1:5555/api/employees', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,7 +36,6 @@ const AddEmployeeForm = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Employee added successfully:', data);
-        // Optionally, redirect to the employee list or show a success message
       })
       .catch(error => console.error('Error adding employee:', error));
   };
@@ -102,14 +89,9 @@ const AddEmployeeForm = () => {
           />
         </label>
         <label>
-          Department ID:
-          <input type="text" name="department_id" value={departmentId} onChange={handleChange} readOnly />
-        </label>
-        <label>
           Salary:
           <input type="text" name="salary" value={formData.salary} onChange={handleChange} />
         </label>
-        {/* Add more fields here as needed */}
         <button type="submit">Add Employee</button>
       </form>
     </div>

@@ -5,7 +5,7 @@ const DepartmentList = () => {
 
   useEffect(() => {
     // Fetch departments data from the API
-    fetch('/api/departments')
+    fetch('http://127.0.0.1:5555/api/departments')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch departments');
@@ -24,7 +24,7 @@ const DepartmentList = () => {
           <tr>
             <th>ID</th>
             <th>Name</th>
-            {/* Add more table headers as needed */}
+            <th>Create Date</th>
           </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@ const DepartmentList = () => {
             <tr key={department.id}>
               <td>{department.id}</td>
               <td>{department.name}</td>
-              {/* Add more table cells for additional data */}
+              <td>{new Date(department.create_date).toDateString()}</td>
             </tr>
           ))}
         </tbody>

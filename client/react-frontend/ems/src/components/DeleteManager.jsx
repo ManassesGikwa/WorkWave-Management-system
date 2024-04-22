@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'; 
-import 'Managers.css'
+// import 'Managers.css'
 
 const DeleteManager = ({ id }) => {
   const handleDelete = () => {

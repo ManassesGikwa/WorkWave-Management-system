@@ -7,7 +7,7 @@ const EmployeeDetails = ({ employeeId }) => {
   const [employee, setEmployee] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/employees/${employeeId}`)
+    fetch(`http://127.0.0.1:5555/api/employees/${employeeId}`)
       .then(response => response.json())
       .then(data => setEmployee(data))
       .catch(error => console.error(`Error fetching employee with ID ${employeeId}:`, error));

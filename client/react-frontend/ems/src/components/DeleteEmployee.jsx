@@ -4,7 +4,7 @@ import './DeleteEmployee.css';
 const DeleteEmployee = ({ employeeId }) => {
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
-      fetch(`/api/employees/${employeeId}`, {
+      fetch(`http://127.0.0.1:5555/api/employees/${employeeId}`, {
         method: 'DELETE',
       })
         .then(response => response.json())

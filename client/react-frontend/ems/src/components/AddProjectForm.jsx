@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import 'Projects.css'
+// import 'Projects.css'
 
 const AddProjectForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     status: '',
-    // Add more fields as needed
   });
 
   const handleChange = e => {
@@ -24,7 +23,6 @@ const AddProjectForm = () => {
       .then(response => response.json())
       .then(data => {
         console.log('Project added successfully:', data);
-        // Optionally, redirect to the project list or show a success message
       })
       .catch(error => console.error('Error adding project:', error));
   };

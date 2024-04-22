@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
-import 'Managers.css'
+// import 'Managers.css'
 
 const EditManagerForm = ({ id }) => {
   const [manager, setManager] = useState(null);
