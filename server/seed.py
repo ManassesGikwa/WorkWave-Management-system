@@ -1,42 +1,42 @@
 import sys
 import os
+import random
+from datetime import datetime, timedelta
+from faker import Faker
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 # Get the parent directory of the 'server' module
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # Add the parent directory to sys.path
 sys.path.append(parent_dir)
 
-# Standard library imports
-import random
-from datetime import datetime, timedelta
-
 # Local library imports
 from server import create_app
 from server.models import db, Manager, Department, Project, Employee, EmployeeProject
 
-# Additional imports for seeding
-from faker import Faker
-
+# Create a Faker instance for generating fake data
 fake = Faker()
 
 def clear_tables(session):
-    # Delete all rows from each table
+    """Clear all rows from each table."""
     session.query(Employee).delete()
     session.query(Department).delete()
     session.query(Project).delete()
     session.query(EmployeeProject).delete()
-    session.query(Manager).delete()  # Clear Manager table
+    session.query(Manager).delete()
 
-# Function to generate random date
 def random_date(start_date, end_date):
+    """Generate a random date between start_date and end_date."""
     return start_date + (end_date - start_date) * random.random()
 
-# Function to generate random phone numbers
 def generate_phone_number():
+    """Generate a random phone number."""
     return fake.phone_number()
 
-# Function to create sample employees
 def create_employees(num_employees, departments):
+    """Create sample employees."""
     employees = []
     for i in range(num_employees):
         if i == 0:  # First employee is admin
@@ -71,8 +71,8 @@ def create_employees(num_employees, departments):
         employees.append(employee)
     return employees
 
-# Function to create sample departments
 def create_departments():
+    """Create sample departments."""
     departments = [
         Department(name="Engineering", create_date=datetime(2016, 1, 1)),
         Department(name="Marketing", create_date=datetime(2017, 1, 1)),
@@ -80,8 +80,8 @@ def create_departments():
     ]
     return departments
 
-# Function to create sample projects with realistic start and end dates based on status
 def create_projects(num_projects):
+    """Create sample projects."""
     projects = []
     for _ in range(num_projects):
         status = random.choice(["Active", "Inactive", "Completed"])
@@ -92,7 +92,6 @@ def create_projects(num_projects):
         projects.append(project)
     return projects
 
-# Function to create sample managers for departments
 def create_managers(departments, employees):
     managers = []
     for department in departments:
@@ -104,25 +103,22 @@ def create_managers(departments, employees):
             email=manager_employee.email,  # Use the employee's email as the manager's email
             phone_number=manager_employee.phone_number,  # Use the employee's phone number as the manager's phone number
             join_date=manager_employee.join_date,  # Use the employee's join date as the manager's join date
-            department_id=department.id,  # Pass the department id
-            salary=manager_salary  # Assign the manager's salary
-
+           
         )
+        # Assign the manager to the department
+        department.managers.append(manager)
         managers.append(manager)
-        manager_employee.salary = manager_salary
-        
     return managers
 
 
-# Function to assign employees to projects with realistic start and end dates
 def assign_employees_to_projects(employees, projects):
+    """Assign employees to projects with realistic start and end dates."""
     for employee in employees:
         if employee.employee_availability_status == "Available":
             num_projects_assigned = random.randint(1, 3)  # Assigning each employee to 1-3 projects
             projects_to_assign = random.sample(projects, num_projects_assigned)
             for project in projects_to_assign:
                 if not EmployeeProject.query.filter_by(employee=employee, project=project).first():
-                    # Logic for realistic start and end dates based on project status
                     start_date, end_date = get_project_dates(project.status)
                     employee_project = EmployeeProject(
                         employee=employee,
@@ -133,20 +129,17 @@ def assign_employees_to_projects(employees, projects):
                     db.session.add(employee_project)
     db.session.commit()
 
-# Helper function to calculate realistic start and end dates
 def get_project_dates(status):
-    """Calculates realistic start and end dates based on project status."""
+    """Calculate realistic start and end dates based on project status."""
     if status == "Active":
         start_date = datetime.now()  # Active projects can have recent start dates
         end_date = None  # No end date for ongoing projects
     elif status == "Inactive":
-        # Randomly choose a date in the past year for becoming inactive
         max_inactive_days = (datetime.now() - datetime(2023, 1, 1)).days
         inactive_offset = int(max_inactive_days * random.random())
         start_date = datetime(2023, 1, 1) + timedelta(days=inactive_offset)
         end_date = datetime.now()  # Project becomes inactive on a random date
     else:  # status is "Completed"
-        # Randomly choose dates in the past for start and completion
         max_completion_days = (datetime.now() - datetime(2020, 1, 1)).days
         completion_offset = int(max_completion_days * random.random())
         start_date = datetime(2020, 1, 1) + timedelta(days=completion_offset)
@@ -154,34 +147,29 @@ def get_project_dates(status):
         end_date = start_date + timedelta(days=project_duration)
     return start_date, end_date
 
-# Main function to seed the database
 def seed():
+    """Seed the database with sample data."""
     app = create_app()
     with app.app_context():
         with db.session.begin():
             clear_tables(db.session)
             
-        # Create sample departments
         departments = create_departments()
         db.session.add_all(departments)
         db.session.commit()
 
-        # Create sample employees
         employees = create_employees(10, departments) 
         db.session.add_all(employees)
         db.session.commit()
 
-        # Create sample managers
         managers = create_managers(departments, employees)
         db.session.add_all(managers)
         db.session.commit()
 
-        # Create sample projects
         projects = create_projects(5) 
         db.session.add_all(projects)
         db.session.commit()
 
-        # Assign employees to projects
         assign_employees_to_projects(employees, projects)
         db.session.commit()
 

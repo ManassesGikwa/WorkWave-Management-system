@@ -1,6 +1,6 @@
-from flask import jsonify, request
+from flask import jsonify, request, make_response
 from flask_cors import CORS
-from . import db, create_app
+from . import db, create_app  # Assuming `create_app` is correctly defined in `__init__.py`
 from server.models import Manager, Department, Project, Employee
 
 app = create_app()
@@ -38,17 +38,19 @@ def get_employee_by_id(id):
     employee_data = employee.to_dict()
     return jsonify(employee_data), 200
 
-
+# Update employee route
 @app.route('/api/employees/<int:id>', methods=['PUT'])
 def update_employee(id):
     employee = Employee.query.get(id)
     if not employee:
         raise ValueError('Employee not found')
     data = request.json
-    employee.update(data)
+    for key, value in data.items():
+        setattr(employee, key, value)
     db.session.commit()
     return jsonify({'message': 'Employee updated successfully'})
 
+# Delete employee route
 @app.route('/api/employees/<int:id>', methods=['DELETE'])
 def delete_employee(id):
     employee = Employee.query.get(id)
@@ -142,6 +144,42 @@ def delete_project(id):
     db.session.delete(project)
     db.session.commit()
     return jsonify({'message': 'Project deleted successfully'})
+
+# Route to get employees by department
+@app.route('/api/departments/<int:id>/employees', methods=['GET'])
+def get_employees_by_department(id):
+    employees = Employee.query.filter_by(department_id=id).all()
+    if not employees:
+        return make_response(jsonify({'error': 'No employees found for this department'}), 404)
+    result = [emp.to_dict() for emp in employees]
+    return jsonify(result), 200
+
+# Route to get employees by project
+@app.route('/api/projects/<int:id>/employees', methods=['GET'])
+def get_employees_by_project(id):
+    employees = Employee.query.join(Employee.employee_projects).filter_by(project_id=id).all()
+    if not employees:
+        return make_response(jsonify({'error': 'No employees found for this project'}), 404)
+    result = [emp.to_dict() for emp in employees]
+    return jsonify(result), 200
+
+# Route to get employees by availability status
+@app.route('/api/employees/availability/<status>', methods=['GET'])
+def get_employees_by_availability(status):
+    employees = Employee.query.filter_by(employee_availability_status=status).all()
+    if not employees:
+        return make_response(jsonify({'error': 'No employees found with this availability status'}), 404)
+    result = [emp.to_dict() for emp in employees]
+    return jsonify(result), 200
+
+# Route to get employees by manager
+@app.route('/api/managers/<int:id>/employees', methods=['GET'])
+def get_employees_by_manager(id):
+    employees = Employee.query.filter_by(manager_id=id).all()
+    if not employees:
+        return make_response(jsonify({'error': 'No employees found for this manager'}), 404)
+    result = [emp.to_dict() for emp in employees]
+    return jsonify(result), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
